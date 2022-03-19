@@ -145,5 +145,66 @@ public class AnimeRepoTest
         result.Should().BeSameAs(animeToAdd);
 
     }
-    
+
+    [Fact]
+    public async Task Update_ChangeField_AppliesChange()
+    {
+        //Arrange
+        
+        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase("AnimeRepoTest")
+            .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            .Options;
+
+        await using var context = new AppDbContext(contextOptions);
+
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+
+        context.AddRange(_data);
+        await context.SaveChangesAsync();
+        
+        var repo = new AnimeRepository(context);
+
+        var dataBeforeUpdate = await repo.GetById(3);
+        var updateData = await repo.GetById(3);
+        updateData!.TranslatedTitle = "Some different title";
+        
+        //Act
+        var result = await repo.Update(updateData);
+        await repo.SaveChangesAsync();
+        var dataAfterUpdate = await repo.GetAll();
+        var entryAfterUpdate = await repo.GetById(3);
+
+        //Assert
+        dataAfterUpdate.Should().Contain(entryAfterUpdate);
+
+        result.Should().BeSameAs(updateData);
+        entryAfterUpdate.Should().BeSameAs(updateData);
+
+    }
+
+    [Fact]
+    public async Task Update_ChangeId_Fails()
+    {
+        //Arrange
+        //Act
+        //Assert
+    }
+
+    [Fact]
+    public async Task Delete_DeleteExisting_RemovesEntry()
+    {
+        //Arrange
+        //Act
+        //Assert
+    }
+
+    [Fact]
+    public async Task Delete_DeleteNotExisting_ReturnsNull()
+    {
+        //Arrange
+        //Act
+        //Assert
+    }
 }
