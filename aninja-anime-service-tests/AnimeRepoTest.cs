@@ -146,41 +146,4 @@ public class AnimeRepoTest
 
     }
     
-    [Fact]
-    public async Task Create_AddWithExistingId_ChangeIdAndAdd()
-    {
-        //Arrange
-        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase("AnimeRepoTest")
-            .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-            .Options;
-
-        await using var context = new AppDbContext(contextOptions);
-
-        await context.Database.EnsureDeletedAsync();
-        await context.Database.EnsureCreatedAsync();
-
-        context.AddRange(_data);
-        await context.SaveChangesAsync();
-        
-        var repo = new AnimeRepository(context);
-
-        //Act
-        var animeThatExists = new Anime()
-        {
-            Id = 2, OriginalTitle = "かきくけこ", TranslatedTitle = "Title2", Status = Status.FinishedAiring,
-            Demographic = Demographic.Seinen, Description = "test desc2", ImgUrl = "https://google.com",
-            EndDate = new DateTime(2021, 4, 5), StartDate = new DateTime(2020, 12, 1), EpisodeCount = 10
-        };
-
-        var result = await repo.Create(animeThatExists);
-        await repo.SaveChangesAsync();
-
-        //Assert
-        var dataAfterAdd = await repo.GetAll();
-        dataAfterAdd.Should().HaveCount(4);
-        dataAfterAdd.Last().Should().NotBeSameAs(animeThatExists);
-        result.Should().NotBeSameAs(animeThatExists);
-
-    }
 }
