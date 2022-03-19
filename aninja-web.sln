@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-tags-service", "anin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ocelot-api-gateway", "ocelot-api-gateway\ocelot-api-gateway.csproj", "{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-anime-service-tests", "aninja-anime-service-tests\aninja-anime-service-tests.csproj", "{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
