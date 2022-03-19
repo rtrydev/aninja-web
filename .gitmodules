@@ -1,0 +1,12 @@
+[submodule "aninja-anime-service"]
+	path = aninja-anime-service
+	url = https://github.com/rtrydev/aninja-anime-service
+[submodule "aninja-tags-service"]
+	path = aninja-tags-service
+	url = https://github.com/rtrydev/aninja-tags-service
+[submodule "aninja-kubernetes-config"]
+	path = aninja-kubernetes-config
+	url = https://github.com/rtrydev/aninja-kubernetes-config
+[submodule "ocelot-api-gateway"]
+	path = ocelot-api-gateway
+	url = https://github.com/rtrydev/ocelot-api-gateway
