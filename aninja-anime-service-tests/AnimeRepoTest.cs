@@ -185,26 +185,38 @@ public class AnimeRepoTest
     }
 
     [Fact]
-    public async Task Update_ChangeId_Fails()
-    {
-        //Arrange
-        //Act
-        //Assert
-    }
-
-    [Fact]
     public async Task Delete_DeleteExisting_RemovesEntry()
     {
         //Arrange
-        //Act
-        //Assert
-    }
+        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase("AnimeRepoTest")
+            .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            .Options;
 
-    [Fact]
-    public async Task Delete_DeleteNotExisting_ReturnsNull()
-    {
-        //Arrange
+        await using var context = new AppDbContext(contextOptions);
+
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+
+        context.AddRange(_data);
+        await context.SaveChangesAsync();
+
+        var repo = new AnimeRepository(context);
+
+        var dataToDelete = await repo.GetById(3);
+
         //Act
+        var result = await repo.Delete(dataToDelete);
+        await repo.SaveChangesAsync();
+        var dataAfterDelete = await repo.GetAll();
+        var entryAfterDelete = await repo.GetById(3);
+
+
         //Assert
+        result.Should().BeSameAs(dataToDelete);
+        dataAfterDelete.Should().HaveCount(2);
+        dataAfterDelete.Should().NotContain(dataToDelete);
+        entryAfterDelete.Should().BeNull();
+
     }
 }
