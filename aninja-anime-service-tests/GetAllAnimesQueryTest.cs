@@ -126,6 +126,8 @@ namespace aninja_anime_service_tests
 
             var queryWithManyInexistent = new GetAllAnimesQuery() { Demographics = new[] { "Shounen", "Shounen" } };
 
+            var queryWithEmptyDemographics = new GetAllAnimesQuery() { Demographics = new List<string>() };
+
 
             //Act
             var resultOne = await handler.Handle(queryOne, CancellationToken.None);
@@ -133,6 +135,7 @@ namespace aninja_anime_service_tests
             var resultMultiWithExistentAndInexistent = await handler.Handle(queryMultiWithExistentAndInexistent, CancellationToken.None);
             var resultWithOnlyInexistent = await handler.Handle(queryWithOnlyInexistent, CancellationToken.None);
             var resultWithManyInexistent = await handler.Handle(queryWithManyInexistent, CancellationToken.None);
+            var resultWithEmptyDemographics = await handler.Handle(queryWithEmptyDemographics, CancellationToken.None);
 
             //Assert
             resultOne.Should().BeEquivalentTo(queryOneResult);
@@ -140,6 +143,7 @@ namespace aninja_anime_service_tests
             resultMultiWithExistentAndInexistent.Should().BeEquivalentTo(queryMultiWithExistentAndInexistentResult);
             resultWithOnlyInexistent.Should().BeEmpty();
             resultWithManyInexistent.Should().BeEmpty();
+            resultWithEmptyDemographics.Should().BeEquivalentTo(_data);
 
         }
 
@@ -174,6 +178,8 @@ namespace aninja_anime_service_tests
 
             var queryWithManyInexistent = new GetAllAnimesQuery() { Statuses = new[] { "NotYetAired", "NotYetAired" } };
 
+            var queryWithEmptyStatuses = new GetAllAnimesQuery() { Statuses = new List<string>() };
+
 
             //Act
             var resultOne = await handler.Handle(queryOne, CancellationToken.None);
@@ -181,6 +187,7 @@ namespace aninja_anime_service_tests
             var resultMultiWithExistentAndInexistent = await handler.Handle(queryMultiWithExistentAndInexistent, CancellationToken.None);
             var resultWithOnlyInexistent = await handler.Handle(queryWithOnlyInexistent, CancellationToken.None);
             var resultWithManyInexistent = await handler.Handle(queryWithManyInexistent, CancellationToken.None);
+            var resultWithEmptyStatuses = await handler.Handle(queryWithEmptyStatuses, CancellationToken.None);
 
             //Assert
             resultOne.Should().BeEquivalentTo(queryOneResult);
@@ -188,6 +195,47 @@ namespace aninja_anime_service_tests
             resultMultiWithExistentAndInexistent.Should().BeEquivalentTo(queryMultiWithExistentAndInexistentResult);
             resultWithOnlyInexistent.Should().BeEmpty();
             resultWithManyInexistent.Should().BeEmpty();
+            resultWithEmptyStatuses.Should().BeEquivalentTo(_data);
+        }
+
+        [Fact]
+        public async Task GetAll_WithGivenTags_ReturnsWithGivenTags()
+        {
+            //Arrange
+            var mockRepo = new Mock<IAnimeRepository>();
+            mockRepo.Setup(x => x.GetAll()).Returns(Task.FromResult(_data));
+
+            IEnumerable<int> tagIdsWithNoAnime = new List<int> { 3, 4 };
+            IEnumerable<int> emptyTagList = new List<int>();
+            IEnumerable<Anime> animeWithTag = new List<Anime>() { _data.First() };
+            IEnumerable<Anime> emptyResponse = new List<Anime>();
+
+            var mockTagDataService = new Mock<IAnimeTagDataClient>();
+            mockTagDataService.Setup(x => x.ReturnAllAnimeWithTags(It.Is<IEnumerable<int>>(x => x.Equals(tagIds)))).Returns(animeWithTag);
+            mockTagDataService.Setup(x => x.ReturnAllAnimeWithTags(It.Is<IEnumerable<int>>(x => x.Equals(tagIdsWithNoAnime)))).Returns(emptyResponse);
+
+            var animeProfile = new AnimeProfile();
+            var cfg = new MapperConfiguration(cfg => cfg.AddProfile(animeProfile));
+            var mapper = new Mapper(cfg);
+
+            var handler = new GetAllAnimesQueryHandler(mockRepo.Object, mockTagDataService.Object);
+
+            var queryWithTag = new GetAllAnimesQuery() { TagIds = tagIds };
+
+            var queryWithTagThatHasNoAnime = new GetAllAnimesQuery() { TagIds = tagIdsWithNoAnime };
+
+            var queryWithEmptyTagList = new GetAllAnimesQuery() { TagIds = emptyTagList };
+
+            //Act
+            var resultWithTag = await handler.Handle(queryWithTag, CancellationToken.None);
+            var resultWithTagThatHasNoAnime = await handler.Handle(queryWithTagThatHasNoAnime, CancellationToken.None);
+            var resultEmptyTagList = await handler.Handle(queryWithEmptyTagList, CancellationToken.None);
+
+            //Assert
+            resultWithTag.Should().BeEquivalentTo(animeWithTag);
+            resultWithTagThatHasNoAnime.Should().BeEmpty();
+            resultEmptyTagList.Should().BeEquivalentTo(_data);
+
         }
     }
 }
