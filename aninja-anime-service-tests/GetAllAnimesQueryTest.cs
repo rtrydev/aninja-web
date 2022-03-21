@@ -129,18 +129,16 @@ namespace aninja_anime_service_tests
 
             //Act
             var resultOne = await handler.Handle(queryOne, CancellationToken.None);
-            resultOne.Should().BeEquivalentTo(queryOneResult);
-
             var resultMulti = await handler.Handle(queryMulti, CancellationToken.None);
-            resultMulti.Should().BeEquivalentTo(queryMultiResult);
-
             var resultMultiWithExistentAndInexistent = await handler.Handle(queryMultiWithExistentAndInexistent, CancellationToken.None);
-            resultMultiWithExistentAndInexistent.Should().BeEquivalentTo(queryMultiWithExistentAndInexistentResult);
-
             var resultWithOnlyInexistent = await handler.Handle(queryWithOnlyInexistent, CancellationToken.None);
-            resultWithOnlyInexistent.Should().BeEmpty();
-
             var resultWithManyInexistent = await handler.Handle(queryWithManyInexistent, CancellationToken.None);
+
+            //Assert
+            resultOne.Should().BeEquivalentTo(queryOneResult);
+            resultMulti.Should().BeEquivalentTo(queryMultiResult);
+            resultMultiWithExistentAndInexistent.Should().BeEquivalentTo(queryMultiWithExistentAndInexistentResult);
+            resultWithOnlyInexistent.Should().BeEmpty();
             resultWithManyInexistent.Should().BeEmpty();
 
         }
