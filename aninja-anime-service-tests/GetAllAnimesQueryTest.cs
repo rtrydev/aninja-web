@@ -54,7 +54,7 @@ namespace aninja_anime_service_tests
                 Id = 3,
                 OriginalTitle = "たちつてと",
                 TranslatedTitle = "Title3",
-                Status = Status.NotYetAired,
+                Status = Status.CurrentlyAiring,
                 Demographic = Demographic.Shoujo,
                 Description = "test desc3",
                 ImgUrl = null,
@@ -141,6 +141,53 @@ namespace aninja_anime_service_tests
             resultWithOnlyInexistent.Should().BeEmpty();
             resultWithManyInexistent.Should().BeEmpty();
 
+        }
+
+        [Fact]
+        public async Task GetAll_WithGivenStatus_ReturnsWithGivenStatus()
+        {
+            //Arrange
+            var mockRepo = new Mock<IAnimeRepository>();
+            mockRepo.Setup(x => x.GetAll()).Returns(Task.FromResult(_data));
+
+            IEnumerable<Anime> animeWithTag = new List<Anime>() { _data.First() };
+
+            var mockTagDataService = new Mock<IAnimeTagDataClient>();
+            mockTagDataService.Setup(x => x.ReturnAllAnimeWithTags(It.Is<IEnumerable<int>>(x => x.Equals(tagIds)))).Returns(animeWithTag);
+
+            var animeProfile = new AnimeProfile();
+            var cfg = new MapperConfiguration(cfg => cfg.AddProfile(animeProfile));
+            var mapper = new Mapper(cfg);
+
+            var handler = new GetAllAnimesQueryHandler(mockRepo.Object, mockTagDataService.Object);
+
+            var queryOne = new GetAllAnimesQuery() { Statuses = new[] { "CurrentlyAiring" } };
+            var queryOneResult = _data.Where(x => x.Status == Status.CurrentlyAiring);
+
+            var queryMulti = new GetAllAnimesQuery() { Statuses = new[] { "CurrentlyAiring", "FinishedAiring" } };
+            var queryMultiResult = _data.Where(x => x.Status == Status.CurrentlyAiring || x.Status == Status.FinishedAiring);
+
+            var queryMultiWithExistentAndInexistent = new GetAllAnimesQuery() { Statuses = new[] { "CurrentlyAiring", "FinishedAiring", "NotYetAired" } };
+            var queryMultiWithExistentAndInexistentResult = _data.Where(x => x.Status == Status.CurrentlyAiring || x.Status == Status.FinishedAiring);
+
+            var queryWithOnlyInexistent = new GetAllAnimesQuery() { Statuses = new[] { "NotYetAired" } };
+
+            var queryWithManyInexistent = new GetAllAnimesQuery() { Statuses = new[] { "NotYetAired", "NotYetAired" } };
+
+
+            //Act
+            var resultOne = await handler.Handle(queryOne, CancellationToken.None);
+            var resultMulti = await handler.Handle(queryMulti, CancellationToken.None);
+            var resultMultiWithExistentAndInexistent = await handler.Handle(queryMultiWithExistentAndInexistent, CancellationToken.None);
+            var resultWithOnlyInexistent = await handler.Handle(queryWithOnlyInexistent, CancellationToken.None);
+            var resultWithManyInexistent = await handler.Handle(queryWithManyInexistent, CancellationToken.None);
+
+            //Assert
+            resultOne.Should().BeEquivalentTo(queryOneResult);
+            resultMulti.Should().BeEquivalentTo(queryMultiResult);
+            resultMultiWithExistentAndInexistent.Should().BeEquivalentTo(queryMultiWithExistentAndInexistentResult);
+            resultWithOnlyInexistent.Should().BeEmpty();
+            resultWithManyInexistent.Should().BeEmpty();
         }
     }
 }
