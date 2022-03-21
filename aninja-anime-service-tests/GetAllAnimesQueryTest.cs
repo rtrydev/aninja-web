@@ -237,5 +237,52 @@ namespace aninja_anime_service_tests
             resultEmptyTagList.Should().BeEquivalentTo(_data);
 
         }
+
+        [Fact]
+        public async Task GetAll_WithName_ReturnsContainingText()
+        {
+            //Arrange
+            var mockRepo = new Mock<IAnimeRepository>();
+            mockRepo.Setup(x => x.GetAll()).Returns(Task.FromResult(_data));
+
+            IEnumerable<Anime> animeWithTag = new List<Anime>() { _data.First() };
+
+            var mockTagDataService = new Mock<IAnimeTagDataClient>();
+            mockTagDataService.Setup(x => x.ReturnAllAnimeWithTags(It.Is<IEnumerable<int>>(x => x.Equals(tagIds)))).Returns(animeWithTag);
+
+            var animeProfile = new AnimeProfile();
+            var cfg = new MapperConfiguration(cfg => cfg.AddProfile(animeProfile));
+            var mapper = new Mapper(cfg);
+
+            var handler = new GetAllAnimesQueryHandler(mockRepo.Object, mockTagDataService.Object);
+
+            var emptyName = new GetAllAnimesQuery() { Name = "" };
+            var nameThatExistsOnce = new GetAllAnimesQuery() { Name = "Title1" };
+            var animeWithTitle1 = _data.Where(x => x.TranslatedTitle.Contains(nameThatExistsOnce.Name));
+
+            var nameThatAllContain = new GetAllAnimesQuery() { Name = "Title" };
+            var textThatAllContain = new GetAllAnimesQuery() { Name = "t" };
+            var nameThatExistsPlusMoreLetters = new GetAllAnimesQuery() { Name = "Title1asd" };
+            var nameThatExistsPlusWhiteSpaces = new GetAllAnimesQuery() { Name = " Title " };
+
+            //Act
+            var resultEmptyName = await handler.Handle(emptyName, CancellationToken.None);
+            var resultNameThatExistsOnce = await handler.Handle(nameThatExistsOnce, CancellationToken.None);
+            var resultNameThatAllContain = await handler.Handle(nameThatAllContain, CancellationToken.None);
+            var resultTextThatAllContain = await handler.Handle(textThatAllContain, CancellationToken.None);
+            var resultNameThatExistsPlusMoreLetters = await handler.Handle(nameThatExistsPlusMoreLetters, CancellationToken.None);
+            var resultNameThatExistsPlusWhiteSpaces = await handler.Handle(nameThatExistsPlusWhiteSpaces, CancellationToken.None);
+
+            //Assert
+
+            resultEmptyName.Should().BeEquivalentTo(_data);
+            resultNameThatExistsOnce.Should().BeEquivalentTo(animeWithTitle1);
+            resultNameThatAllContain.Should().BeEquivalentTo(_data);
+            resultTextThatAllContain.Should().BeEquivalentTo(_data);
+            resultNameThatExistsPlusMoreLetters.Should().BeEmpty();
+            resultNameThatExistsPlusWhiteSpaces.Should().BeEquivalentTo(_data);
+
+        }
+
     }
 }
