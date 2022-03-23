@@ -1,12 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-anime-service", "aninja-anime-service\aninja-anime-service.csproj", "{53595299-167A-4959-9E02-B9B65DE6E6C2}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aninja-anime-service", "aninja-anime-service\aninja-anime-service.csproj", "{53595299-167A-4959-9E02-B9B65DE6E6C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-tags-service", "aninja-tags-service\aninja-tags-service.csproj", "{274BE600-2913-4668-89CA-19A12AC62D8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aninja-tags-service", "aninja-tags-service\aninja-tags-service.csproj", "{274BE600-2913-4668-89CA-19A12AC62D8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ocelot-api-gateway", "ocelot-api-gateway\ocelot-api-gateway.csproj", "{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ocelot-api-gateway", "ocelot-api-gateway\ocelot-api-gateway.csproj", "{FAE1CFFB-D33D-4E02-A95A-0D515D2D6553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-anime-service-tests", "aninja-anime-service-tests\aninja-anime-service-tests.csproj", "{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aninja-anime-service-tests", "aninja-anime-service-tests\aninja-anime-service-tests.csproj", "{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aninja-auth-service", "aninja-auth-service\aninja-auth-service.csproj", "{0FFF666B-5A65-40B7-A3BD-1AA5393BD8CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-auth-service-test", "aninja-auth-service-test\aninja-auth-service-test.csproj", "{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +37,19 @@ Global
 		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2787EE18-C70E-4FDC-9B8E-2253B998CE1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FFF666B-5A65-40B7-A3BD-1AA5393BD8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FFF666B-5A65-40B7-A3BD-1AA5393BD8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FFF666B-5A65-40B7-A3BD-1AA5393BD8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FFF666B-5A65-40B7-A3BD-1AA5393BD8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AACB79B-F9DF-4E0B-91D0-2781B7EFE942}
 	EndGlobalSection
 EndGlobal

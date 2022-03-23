@@ -10,3 +10,6 @@
 [submodule "ocelot-api-gateway"]
 	path = ocelot-api-gateway
 	url = https://github.com/rtrydev/ocelot-api-gateway
+[submodule "aninja-auth-service"]
+	path = aninja-auth-service
+	url = https://github.com/rtrydev/aninja-auth-service
