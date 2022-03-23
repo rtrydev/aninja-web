@@ -29,6 +29,7 @@ namespace aninja_auth_service_test
 
             var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
             Environment.SetEnvironmentVariable("JWT_SECRET", "someawesomejwtsecret");
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
@@ -42,6 +43,7 @@ namespace aninja_auth_service_test
 
             //Teardown
             Environment.SetEnvironmentVariable("JWT_SECRET", null);
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", null);
 
         }
 
@@ -53,6 +55,7 @@ namespace aninja_auth_service_test
             
             var jwtService = new JwtService(loggerMock.Object);
             var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
@@ -70,7 +73,54 @@ namespace aninja_auth_service_test
             );
             token.Should().BeNull();
             token2.Should().BeNull();
-            
+
+            //Teardown
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", null);
+
+        }
+
+        [Fact]
+        public async Task ExpiredOrWillSoonExpire_NotExpired_ReturnsFalse()
+        {
+            //Arrange
+            Environment.SetEnvironmentVariable("JWT_SECRET", "someawesomejwtsecret");
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
+            var loggerMock = new Mock<ILogger<JwtService>>();
+
+            var jwtService = new JwtService(loggerMock.Object);
+            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+
+            //Act
+            var token = jwtService.GetJwtToken(someUser);
+
+            //Assert
+            jwtService.ExpiredOrWillSoonExpire(token!).Should().BeFalse();
+
+            //Teardown
+            Environment.SetEnvironmentVariable("JWT_SECRET", null);
+
+        }
+
+        [Fact]
+        public async Task ExpiredOrWillSoonExpire_CloseToExpirationOrExpired_ReturnsTrue()
+        {
+            //Arrange
+            Environment.SetEnvironmentVariable("JWT_SECRET", "someawesomejwtsecret");
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "29");
+            var loggerMock = new Mock<ILogger<JwtService>>();
+
+            var jwtService = new JwtService(loggerMock.Object);
+            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+
+            //Act
+            var token = jwtService.GetJwtToken(someUser);
+
+            //Assert
+            jwtService.ExpiredOrWillSoonExpire(token!).Should().BeTrue();
+
+            //Teardown
+            Environment.SetEnvironmentVariable("JWT_SECRET", null);
+            Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", null);
         }
     }
 }
