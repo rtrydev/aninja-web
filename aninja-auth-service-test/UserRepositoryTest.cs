@@ -37,6 +37,45 @@ namespace aninja_auth_service_test
 
         }
 
+        [Fact]
+        public async Task GetUserById_GetExistingUser_ReturnsUser()
+        {
+            //Arrange
+            var mongoClient = new MongoClient("mongodb://localhost:27017");
+            var repository = new UserRepository(mongoClient);
+
+            var guid = Guid.NewGuid();
+            var user = new User() { Id = guid, Name = "test", Email = "a@a.com", Password = "asd" };
+            await mongoClient.GetDatabase("usersDB").GetCollection<User>("users").InsertOneAsync(user);
+
+            //Act
+            var userFromRepo = await repository.GetUserById(guid);
+
+            //Assert
+            userFromRepo.Should().NotBeNull();
+            userFromRepo.Should().BeEquivalentTo(user);
+
+            //Teardown
+            await mongoClient.GetDatabase("usersDB").GetCollection<User>("users").FindOneAndDeleteAsync(x => x.Id == guid);
+
+        }
+
+        [Fact]
+        public async Task GetUserById_GetInexistentUser_ReturnsNull()
+        {
+            //Arrange
+            var mongoClient = new MongoClient("mongodb://localhost:27017");
+            var repository = new UserRepository(mongoClient);
+
+            var guid = Guid.NewGuid();
+
+            //Act
+            var userFromRepo = await repository.GetUserById(guid);
+
+            //Assert
+            userFromRepo.Should().BeNull();
+        }
+
 
     }
 }
