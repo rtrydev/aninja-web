@@ -26,8 +26,9 @@ namespace aninja_auth_service_test
                 Times.Never
             );
             var jwtService = new JwtService(loggerMock.Object);
+            var guid = Guid.NewGuid();
 
-            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
             Environment.SetEnvironmentVariable("JWT_SECRET", "someawesomejwtsecret");
             Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
@@ -54,7 +55,8 @@ namespace aninja_auth_service_test
             var loggerMock = new Mock<ILogger<JwtService>>();
             
             var jwtService = new JwtService(loggerMock.Object);
-            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var guid = Guid.NewGuid();
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
             Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
             //Act
@@ -88,7 +90,8 @@ namespace aninja_auth_service_test
             var loggerMock = new Mock<ILogger<JwtService>>();
 
             var jwtService = new JwtService(loggerMock.Object);
-            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var guid = Guid.NewGuid();
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
@@ -110,7 +113,8 @@ namespace aninja_auth_service_test
             var loggerMock = new Mock<ILogger<JwtService>>();
 
             var jwtService = new JwtService(loggerMock.Object);
-            var someUser = new User() { Id = 1, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var guid = Guid.NewGuid();
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
