@@ -97,7 +97,7 @@ namespace aninja_auth_service_test
             var token = jwtService.GetJwtToken(someUser);
 
             //Assert
-            jwtService.ExpiredOrWillSoonExpire(token!).Should().BeFalse();
+            jwtService.WillSoonExpire(token!).Should().BeFalse();
 
             //Teardown
             Environment.SetEnvironmentVariable("JWT_SECRET", null);
@@ -120,7 +120,7 @@ namespace aninja_auth_service_test
             var token = jwtService.GetJwtToken(someUser);
 
             //Assert
-            jwtService.ExpiredOrWillSoonExpire(token!).Should().BeTrue();
+            jwtService.WillSoonExpire(token!).Should().BeTrue();
 
             //Teardown
             Environment.SetEnvironmentVariable("JWT_SECRET", null);
