@@ -28,7 +28,7 @@ namespace aninja_auth_service_test
             var jwtService = new JwtService(loggerMock.Object);
             var guid = Guid.NewGuid();
 
-            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123", Role = "User" };
             Environment.SetEnvironmentVariable("JWT_SECRET", "someawesomejwtsecret");
             Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
@@ -56,7 +56,7 @@ namespace aninja_auth_service_test
             
             var jwtService = new JwtService(loggerMock.Object);
             var guid = Guid.NewGuid();
-            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123", Role = "User" };
             Environment.SetEnvironmentVariable("JWT_EXPIREMINUTES", "180");
 
             //Act
@@ -91,7 +91,7 @@ namespace aninja_auth_service_test
 
             var jwtService = new JwtService(loggerMock.Object);
             var guid = Guid.NewGuid();
-            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123", Role = "User" };
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
@@ -114,7 +114,7 @@ namespace aninja_auth_service_test
 
             var jwtService = new JwtService(loggerMock.Object);
             var guid = Guid.NewGuid();
-            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123" };
+            var someUser = new User() { Id = guid, Name = "Tester", Email = "a@a.com", Password = "pass123", Role = "User" };
 
             //Act
             var token = jwtService.GetJwtToken(someUser);
