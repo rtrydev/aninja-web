@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aninja-auth-service", "anin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-auth-service-test", "aninja-auth-service-test\aninja-auth-service-test.csproj", "{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aninja-rating-service", "aninja-rating-service\aninja-rating-service.csproj", "{82193B60-3ABB-4363-8EE1-F7565167A428}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45D0AE51-7AD5-4AD5-924D-CE64DF08A5F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82193B60-3ABB-4363-8EE1-F7565167A428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82193B60-3ABB-4363-8EE1-F7565167A428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82193B60-3ABB-4363-8EE1-F7565167A428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82193B60-3ABB-4363-8EE1-F7565167A428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
