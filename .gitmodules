@@ -13,3 +13,6 @@
 [submodule "aninja-auth-service"]
 	path = aninja-auth-service
 	url = https://github.com/rtrydev/aninja-auth-service
+[submodule "aninja-rating-service"]
+	path = aninja-rating-service
+	url = https://github.com/rtrydev/aninja-rating-service
