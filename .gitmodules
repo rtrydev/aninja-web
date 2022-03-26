@@ -16,3 +16,6 @@
 [submodule "aninja-rating-service"]
 	path = aninja-rating-service
 	url = https://github.com/rtrydev/aninja-rating-service
+[submodule "aninja-character-service"]
+	path = aninja-character-service
+	url = https://github.com/rtrydev/aninja-character-service
